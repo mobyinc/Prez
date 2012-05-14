@@ -1,11 +1,12 @@
 Prez::Application.routes.draw do  
-  root :to => 'static#show'
   
   ActiveAdmin.routes(self)
 
   devise_for :admin_users, ActiveAdmin::Devise.config
-
-  # get 'hello' => 'static#show'
+  
+  resources :presentations do
+    resource :current_slide, only: [:show]
+  end
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

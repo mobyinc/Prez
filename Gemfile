@@ -9,7 +9,9 @@ group :development do
   gem 'sqlite3'
 end
 
-gem 'pg'
+group :production do
+  gem 'pg'
+end
 gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
 gem 'fog'
