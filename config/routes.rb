@@ -1,4 +1,7 @@
 Prez::Application.routes.draw do
+  
+  get 'hello' => 'static#show'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
