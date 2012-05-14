@@ -42,7 +42,10 @@ function setSlide() {
 		return;
 	}
 	
-	$.post(post_url, data);	
+	$.ajax({
+		type: "PUT",
+		url: post_url, 
+		data: data});	
 }
 
 $(window).load(function() {
