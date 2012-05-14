@@ -49,6 +49,21 @@ function setSlide() {
 }
 
 /**
+	Stores image max widths and heights as data attributes on the image
+*/
+function storeImageAttributes() {
+
+	var width  = $("img:last").width();
+	var height = $("img:last").height();
+
+	
+	$("img").each(function (index, value){ 
+		$(value).attr('data-max-width', width);
+		$(value).attr('data-max-height', height);
+	});
+}
+
+/**
 	Makes CSS adjustments for prez, which are dynamic based on the size of the slides
 */
 function cssAdjustments() {
@@ -57,8 +72,78 @@ function cssAdjustments() {
 	var firstImage      = slideContainer.children(":last"); // ASSUMES ALL IMAGES THE SAME SIZE
 	var width 			= firstImage.width();
 	var height			= firstImage.height();
+	var imageWidth		= firstImage.attr('data-max-width');
+	var imageHeight		= firstImage.attr('data-max-height');
+	
+	if (document.body && document.body.offsetWidth) {
+          winW = document.body.offsetWidth;
+          winH = document.body.offsetHeight;
+      }
+      if (document.compatMode == 'CSS1Compat' && document.documentElement && document.documentElement.offsetWidth) {
+          winW = document.documentElement.offsetWidth;
+          winH = document.documentElement.offsetHeight;
+      }
+      if (window.innerWidth && window.innerHeight) {
+          winW = window.innerWidth;
+          winH = window.innerHeight;
+      }
+	
+	var maxHeight 		= winH;
+	var maxWidth		= winW;
+	var images			= $("img");
+
+	if (width > maxWidth) {
+		width = maxWidth;
+	} else if (width < imageWidth)  {
+		width = maxWidth;
+	}
+	
+	if (height > maxHeight) {
+		height = maxHeight;
+	} else if (height < imageHeight) {
+		height = maxHeight;
+	}
+	
 	// Height/width setup
 	container.css('height', height).css('width', width);
+	
+}
+
+function adminSetup() {
+	var admin 			= $("#admin").size() > 0;
+    
+	if (!admin) {
+		return;
+	}
+	
+	// Click handler for bullets
+	var bullets = $("ul.orbit-bullets").children();
+	$.each(bullets, function(index, value) {
+		
+		$(value).click(function(e) {
+			setSlide();
+		});
+		
+	});
+	
+	// Click handler for nav arrows
+	$.each(slider_nav.children(), function(index, value) {
+		$(value).click(function(e) {
+			setSlide();
+		})
+	});
+	
+	// Key navigation
+	$(document).keydown(function(e) {
+		if (e.which == 37) { // left key
+			slider_nav.children(".left").click();
+			setSlide();
+		}
+		else if (e.which == 39) { // right key
+			slider_nav.children(".right").click();
+			setSlide();
+		}
+	});
 	
 }
 
@@ -76,6 +161,7 @@ $(window).load(function() {
         directionalNav: admin
     });
 
+	storeImageAttributes();
 	cssAdjustments();
 
 	//////////
@@ -92,36 +178,7 @@ $(window).load(function() {
     }
 
 	if (admin) {	
-
-		// Click handler for bullets
-		var bullets = $("ul.orbit-bullets").children();
-		$.each(bullets, function(index, value) {
-			
-			$(value).click(function(e) {
-				setSlide();
-			});
-			
-		});
-		
-		// Click handler for nav arrows
-		$.each(slider_nav.children(), function(index, value) {
-			$(value).click(function(e) {
-				setSlide();
-			})
-		});
-		
-		// Key navigation
-		$(document).keydown(function(e) {
-			if (e.which == 37) { // left key
-				slider_nav.children(".left").click();
-				setSlide();
-			}
-			else if (e.which == 39) { // right key
-				slider_nav.children(".right").click();
-				setSlide();
-			}
-		});
-		
+		adminSetup();
 	}
 	
 	// Start polling
@@ -130,5 +187,11 @@ $(window).load(function() {
 	} else {
 		setSlide();
 	}
+	
+	// Window resizing event
+	$(window).resize(function() {
+	    
+		cssAdjustments();
+	});
 
 });

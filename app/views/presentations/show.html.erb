@@ -5,7 +5,7 @@
 <% if @error %>
 	<p><%= @error %></p>
 <% else %>
-<div id="container" style="width: 800px; height: 600px;">
+<div id="container">
 	<div id="slideshow" data-poll-url="<%= presentation_current_slide_path(@presentation) %>" data-post-url="<%= presentation_current_slide_path(@presentation) %>">
 		<% @images.each do |i| %>
 			<%= image_tag i %>
