@@ -1,21 +1,11 @@
-<p id="notice"><%= notice %></p>
+<% if @admin %>
+	<input type="hidden" id="admin" />
+<% end %>
 
-
-<p>
-  <b>Title:</b>
-  <%= @presentation.title %>
-</p>
-
-<p>
-  <b>URL:</b>
-  <%= @presentation.url_slug %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @presentation.description %>
-</p>
-
-
-<%= link_to 'Edit', edit_presentation_path(@presentation) %> |
-<%= link_to 'Back', presentations_path %>
+<div id="container" style="width: 800px; height: 600px;">
+	<div id="slideshow" data-poll-url="/slideshow/current_slide">
+		<% @images.each do |i| %>
+			<%= image_tag i %>
+		<% end %>
+	</div>
+</div>
