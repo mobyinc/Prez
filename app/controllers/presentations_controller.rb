@@ -14,11 +14,22 @@ class PresentationsController < ApplicationController
   # GET /presentations/1.json
   def show
     @presentation = Presentation.find(params[:id])
+    @images = []
+    
+    @presentation.slides.each do |s|
+      @images << s.image
+    end
+
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @presentation }
     end
+  end
+  
+  def current_slide
+    @presentation = Presentation.find(params[:id])
+    render json: { current_slide: @presentation.current_slide }
   end
 
   # GET /presentations/new

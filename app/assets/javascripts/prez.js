@@ -5,7 +5,7 @@
 function slidePoll() {
 	var slideContainer 	= $("#slideshow");	
  	var poll_url 		= slideContainer.attr('data-poll-url');
-	var active_key 		= 'active';
+	var active_key 		= 'current_slide';
 	var timeout         = 5000;
 	
     $.get(poll_url,
@@ -13,7 +13,7 @@ function slidePoll() {
 
 		// Default in case no data yet
 		if (!data) {
-			data = { active: '1' }
+			data = { current_slide: '1' }
 		} 
 
         // Get the active slide from JSON and on the page
@@ -36,7 +36,7 @@ function slidePoll() {
 function setSlide() {
 	var admin     = $("#admin").size() > 0;
 	var active_li = $("li.active").text();
-	var data      = { active: active_li };
+	var data      = { presentation: { current_slide: active_li }};
 	var post_url  = $("#slideshow").attr('data-post-url');
 	if (!admin) {
 		return;
