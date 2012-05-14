@@ -4,9 +4,16 @@ Prez::Application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   
-  get 'presentation/:slug' => 'presentations#show'
+  get 'presentation/:slug/' => 'presentations#show'  
+  get 'presentation/:slug/present' => 'presentations#present'  
   get 'presentation/:id/current_slide' => 'presentations#current_slide', as: 'presentation_current_slide'
   put 'presentation/:id' => 'presentations#update_current_slide', as: 'presentation_current_slide'
+  
+  
+  get '(:slug)' => 'presentations#show'
+  get '(:slug)/present' => 'presentations#present'
+  
+  root :to => 'presentations#show'
   
   # resources :presentations,
   #   resource :current_slide, only: [:show]

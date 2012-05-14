@@ -1,13 +1,15 @@
 class PresentationsController < ApplicationController
+  before_filter :authenticate_admin_user!, only: [:present, :update_current_slide]
   
   def show
-    @presentation = Presentation.find_by_url_slug(params[:slug])
-
-    @images = []
+    find_presentation    
+  end
+  
+  def present
+    find_presentation
+    @presenter = true
     
-    @presentation.slides.each do |s|
-      @images << s.image
-    end
+    render action: 'show'
   end
   
   def current_slide
@@ -21,5 +23,19 @@ class PresentationsController < ApplicationController
     @presentation.current_slide = params[:current_slide]
     
     render json: {}    
+  end
+  
+  def find_presentation
+    @presentation = Presentation.find_by_url_slug(params[:slug])
+    
+    if @presentation
+      @images = []
+    
+      @presentation.slides.each do |s|
+        @images << s.image
+      end
+    else
+      @error = "Oops, there is no presentation at this url"
+    end
   end
 end
