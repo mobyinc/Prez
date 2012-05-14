@@ -12,7 +12,7 @@ class PresentationsController < ApplicationController
   
   def current_slide
     @presentation = Presentation.find(params[:id])
-    render json: { current_slide: @presentation.current_slide }
+    render json: { current_slide: @presentation.current_slide + 1 }
   end
 
   def update_current_slide
