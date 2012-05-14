@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+
+<p>
+  <b>Title:</b>
+  <%= @presentation.title %>
+</p>
+
+<p>
+  <b>URL:</b>
+  <%= @presentation.url_slug %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @presentation.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_presentation_path(@presentation) %> |
+<%= link_to 'Back', presentations_path %>

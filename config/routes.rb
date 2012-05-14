@@ -1,6 +1,11 @@
-Prez::Application.routes.draw do
+Prez::Application.routes.draw do  
+  root :to => 'static#show'
   
-  get 'hello' => 'static#show'
+  ActiveAdmin.routes(self)
+
+  devise_for :admin_users, ActiveAdmin::Devise.config
+
+  # get 'hello' => 'static#show'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
