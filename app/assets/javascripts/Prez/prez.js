@@ -54,6 +54,7 @@ $(window).load(function() {
 	// ORBIT //
 	///////////
 	var slideContainer 	= $("#slideshow");
+	
     slideContainer.orbit({
         animation: 'fade',
         timer: false,

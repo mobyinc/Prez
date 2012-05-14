@@ -7,4 +7,4 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree ./Foundation
-//= require_tree .
+//= require_tree ./Prez
