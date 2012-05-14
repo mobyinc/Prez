@@ -4,9 +4,13 @@ Prez::Application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   
-  resources :presentations do
-    resource :current_slide, only: [:show]
-  end
+  get 'presentation/:slug' => 'presentations#show'
+  get 'presentation/:id/current_slide' => 'presentations#current_slide', as: 'presentation_current_slide'
+  put 'presentation/:id' => 'presentations#update_current_slide', as: 'presentation_current_slide'
+  
+  # resources :presentations,
+  #   resource :current_slide, only: [:show]
+  # end
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

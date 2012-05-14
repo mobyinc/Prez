@@ -3,7 +3,7 @@
 <% end %>
 
 <div id="container" style="width: 800px; height: 600px;">
-	<div id="slideshow" data-poll-url="<%= presentation_current_slide_path(@presentation) %>" data-post-url="<%= presentation_update_path(@presentation) %>">
+	<div id="slideshow" data-poll-url="<%= presentation_current_slide_path(@presentation) %>" data-post-url="<%= presentation_current_slide_path(@presentation) %>">
 		<% @images.each do |i| %>
 			<%= image_tag i %>
 		<% end %>
