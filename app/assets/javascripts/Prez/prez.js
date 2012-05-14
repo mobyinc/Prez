@@ -6,7 +6,7 @@ function slidePoll() {
 	var slideContainer 	= $("#slideshow");	
  	var poll_url 		= slideContainer.attr('data-poll-url');
 	var active_key 		= 'current_slide';
-	var timeout         = 5000;
+	var timeout         = 1000;
 	
     $.get(poll_url,
     function(data) {
@@ -48,6 +48,20 @@ function setSlide() {
 		data: data});	
 }
 
+/**
+	Makes CSS adjustments for prez, which are dynamic based on the size of the slides
+*/
+function cssAdjustments() {
+	var container       = $("#container");
+	var slideContainer	= $("#slideshow");
+	var firstImage      = slideContainer.children(":last"); // ASSUMES ALL IMAGES THE SAME SIZE
+	var width 			= firstImage.width();
+	var height			= firstImage.height();
+	// Height/width setup
+	container.css('height', height).css('width', width);
+	
+}
+
 $(window).load(function() {
 
 	///////////
@@ -61,6 +75,8 @@ $(window).load(function() {
         bullets: true,
         directionalNav: admin
     });
+
+	cssAdjustments();
 
 	//////////
 	// PREZ //
@@ -96,11 +112,11 @@ $(window).load(function() {
 		
 		// Key navigation
 		$(document).keydown(function(e) {
-			if (event.which == 37) { // left key
+			if (e.which == 37) { // left key
 				slider_nav.children(".left").click();
 				setSlide();
 			}
-			else if (event.which == 39) { // right key
+			else if (e.which == 39) { // right key
 				slider_nav.children(".right").click();
 				setSlide();
 			}
@@ -111,6 +127,8 @@ $(window).load(function() {
 	// Start polling
 	if (!admin) {
 		slidePoll();
+	} else {
+		setSlide();
 	}
 
 });
