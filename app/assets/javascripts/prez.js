@@ -36,7 +36,7 @@ function slidePoll() {
 function setSlide() {
 	var admin     = $("#admin").size() > 0;
 	var active_li = $("li.active").text();
-	var data      = { presentation: { current_slide: active_li }};
+	var data      = { current_slide: active_li };
 	var post_url  = $("#slideshow").attr('data-post-url');
 	if (!admin) {
 		return;
