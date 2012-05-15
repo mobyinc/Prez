@@ -17,12 +17,33 @@ function slidePoll() {
 		} 
 
         // Get the active slide from JSON and on the page
-        var active_slide = data[active_key];
-        
-		slideContainer.attr('src', active_slide);
-    });
+        var active_slide      = data[active_key];
+		var current_container;
+		var next_container = window.next_container; 
+		
+		if (next_container == "client_image") {
+			current_container = "client_image_2";
+		} else {
+			current_container = "client_image";
+		}
+		
+		var current = "#" + current_container;
+		var next    = "#" + next_container;
+		var $current = $(current);
+		var $next    = $(next);
 
-	slideContainer.show();
+		if ($current.attr('src') != active_slide) {
+        	$current.fadeOut('slow', function() {
+				$current.hide();
+				$next.attr('src', active_slide);
+				$next.show();
+			});
+			$next.fadeIn('slow');
+			window.next_container = current_container;
+			
+		}
+		
+    });
 	
     setTimeout("slidePoll()", timeout);
 }
@@ -36,6 +57,7 @@ function setSlideTimeout() {
 	var active_li = $("li.active").text();
 	var data      = { current_slide: active_li };
 	var post_url  = $("#slideshow").attr('data-post-url');
+	
 	if (!admin) {
 		return;
 	}
@@ -176,6 +198,8 @@ $(window).load(function() {
     });
 
 	window.slider_nav      	= $(".slider-nav");
+	window.next_container   = "client_image";
+	
 	storeImageAttributes();
 	cssAdjustments();
 
