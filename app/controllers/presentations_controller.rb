@@ -32,7 +32,7 @@ class PresentationsController < ApplicationController
     if @presentation
       @images = []
     
-      @presentation.slides.each do |s|
+      @presentation.slides.order(:sequence).each do |s|
         @images << s.image
       end
     else

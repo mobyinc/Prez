@@ -168,7 +168,7 @@ $(window).load(function() {
 	var slideContainer 	= $("#slideshow");
 	window.admin 			= $("#admin").size() > 0;
 	window.orbit_list 		= $("ul.orbit-bullets");
-	window.slider_nav      	= $(".slider-nav");
+
 	
     slideContainer.orbit({
         animation: 'fade',
@@ -177,6 +177,7 @@ $(window).load(function() {
         directionalNav: admin
     });
 
+	window.slider_nav      	= $(".slider-nav");
 	storeImageAttributes();
 	cssAdjustments();
 
