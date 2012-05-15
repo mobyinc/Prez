@@ -6,10 +6,14 @@
 	<p><%= @error %></p>
 <% else %>
 <div id="container">
+	<% if @presenter %>
 	<div id="slideshow" data-poll-url="<%= presentation_current_slide_path(@presentation) %>" data-post-url="<%= presentation_current_slide_path(@presentation) %>">
 		<% @images.each do |i| %>
 			<%= image_tag i %>
 		<% end %>
 	</div>
+	<% else %>
+	<img src="assets/empty.png" id="client_image" data-poll-url="<%= presentation_current_slide_path(@presentation) %>" style="display: none; width: 1024px; height: 672px;"/>
+	<% end %>
 </div>
 <% end %>

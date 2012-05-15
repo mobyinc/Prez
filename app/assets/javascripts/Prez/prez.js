@@ -3,7 +3,7 @@
  	Polling function. Polls every |timeout| milliseconds to see if the active slide has changed. If so, changes the slide to the appropriate one.
 */
 function slidePoll() {
-	var slideContainer 	= $("#slideshow");	
+	var slideContainer 	= $("#client_image");	
  	var poll_url 		= slideContainer.attr('data-poll-url');
 	var active_key 		= 'current_slide';
 	var timeout         = 1000;
@@ -13,19 +13,17 @@ function slidePoll() {
 
 		// Default in case no data yet
 		if (!data) {
-			data = { current_slide: '1' }
+			data = { current_slide: '' }
 		} 
 
         // Get the active slide from JSON and on the page
         var active_slide = data[active_key];
-        var active_li = $("li.active").text();
-
-        // If different, change using the click handler
-        if (active_li != active_slide) {
-            var query = "li:contains(" + active_slide + ")";
-            $(query).click();
-        }
+        
+		slideContainer.attr('src', active_slide);
     });
+
+	slideContainer.show();
+	
     setTimeout("slidePoll()", timeout);
 }
 
