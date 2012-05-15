@@ -166,6 +166,9 @@ $(window).load(function() {
 	// ORBIT //
 	///////////
 	var slideContainer 	= $("#slideshow");
+	window.admin 			= $("#admin").size() > 0;
+	window.orbit_list 		= $("ul.orbit-bullets");
+	window.slider_nav      	= $(".slider-nav");
 	
     slideContainer.orbit({
         animation: 'fade',
@@ -181,9 +184,7 @@ $(window).load(function() {
 	// PREZ //
 	//////////
 	
-    var admin 			= $("#admin").size() > 0;
-	var orbit_list 		= $("ul.orbit-bullets");
-	var slider_nav      = $(".slider-nav");
+    
     // Hide bullets for non-admins
     if (!admin) {
         $("ul.orbit-bullets").css('display', 'none');

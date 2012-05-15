@@ -2,8 +2,31 @@
  * Maintained for Foundation. foundation.zurb.com
  * Free to use under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- 
- 
+*/
+
+body,html {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+} 
+
+body {
+	background: #f2f2f2;
+	background: -moz-linear-gradient(top,  #f2f2f2 0%, #d3d3d3 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#d3d3d3));
+	background: -webkit-linear-gradient(top,  #f2f2f2 0%,#d3d3d3 100%);
+	background: -o-linear-gradient(top,  #f2f2f2 0%,#d3d3d3 100%);
+	background: -ms-linear-gradient(top,  #f2f2f2 0%,#d3d3d3 100%);
+	background: linear-gradient(top,  #f2f2f2 0%,#d3d3d3 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#d3d3d3',GradientType=0 );
+}
+
+#container {
+	margin: 0 auto;
+	-webkit-box-shadow:  0px 8px 16px 0px rgba(0, 0, 0, .12);
+	box-shadow:  0px 8px 16px 0px rgba(0, 0, 0, .12);
+}
  
 /* CONTAINER
    ================================================== */
