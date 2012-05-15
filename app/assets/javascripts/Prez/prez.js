@@ -30,10 +30,10 @@ function slidePoll() {
 }
 
 /**
-	setSlide()
+	setSlideTimeout()
 	Sets the slide, server-side. Checks for appropriate permissions first.
 */
-function setSlide() {
+function setSlideTimeout() {
 	var admin     = $("#admin").size() > 0;
 	var active_li = $("li.active").text();
 	var data      = { current_slide: active_li };
@@ -49,6 +49,19 @@ function setSlide() {
 }
 
 /**
+	setSlide()
+	Starts a timeout that calls setSlide(). 
+	The reason for the timeout is to give foundation time to call whatever functions necessary for orbit to work.
+	We use the bullets for navigation purposes, so we want the active bullet to be accurate.
+*/
+function setSlide() {
+	var timeout         = 200;
+    setTimeout("setSlideTimeout()", timeout);	
+}
+
+
+/**
+	storeImageAttributes()
 	Stores image max widths and heights as data attributes on the image
 */
 function storeImageAttributes() {
