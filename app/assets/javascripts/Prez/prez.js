@@ -34,10 +34,9 @@ function slidePoll() {
 
 		if ($current.attr('src') != active_slide) {
         	$current.fadeOut('slow', function() {
-				$current.hide();
-				$next.attr('src', active_slide);
-				$next.show();
 			});
+			
+			$next.attr('src', active_slide);				
 			$next.fadeIn('slow');
 			window.next_container = current_container;
 			
