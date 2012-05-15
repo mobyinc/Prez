@@ -42,8 +42,7 @@ div.orbit {
     position: relative;
     overflow: hidden }
     
-div.orbit.with-bullets {
-    margin-bottom: 40px; }
+div.orbit.with-bullets {}
 
 div.orbit .orbit-slide {
     max-width: 100%;
@@ -149,7 +148,8 @@ div.orbit-wrapper span.pause.active {
    ================================================== */
 
 div.orbit-wrapper div.slider-nav {
-    display: block }
+    display: block;
+}
 
 div.orbit-wrapper div.slider-nav span {
     width: 78px;
@@ -159,7 +159,9 @@ div.orbit-wrapper div.slider-nav span {
     z-index: 30;
     top: 50%;
     margin-top: -50px;
-    cursor: pointer; }
+    cursor: pointer;
+    opacity: 0.3;
+}
 
 div.orbit-wrapper div.slider-nav span.right {
     background: url(../assets/orbit/right-arrow.png);
@@ -219,10 +221,13 @@ ul.orbit-bullets {
     position: absolute;
     z-index: 30;
     list-style: none;
-    bottom: -50px;
+    bottom: 0px;
     left: 50%;
-	margin-left: -50px;
-    padding: 0; }
+	margin: 0 0 0 -50px;
+    padding: 10px 10px 10px 5px;
+    background: #fff;
+    opacity: 0.5;
+}
 
 ul.orbit-bullets li {
     float: left;
