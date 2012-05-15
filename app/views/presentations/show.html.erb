@@ -13,8 +13,10 @@
 		<% end %>
 	</div>
 	<% else %>
-	<img src="assets/empty.png" id="client_image" data-poll-url="<%= presentation_current_slide_path(@presentation) %>" style="display: none; width: 1024px; height: 672px;"/>
-	<img src="assets/empty.png" id="client_image_2" style="display: none; width: 1024px; height: 672px;" >
+
+	<img src="assets/empty.png" id="client_image" data-poll-url="<%= presentation_current_slide_path(@presentation) %>" style="display: none; position: absolute;"/>
+	<img src="assets/empty.png" id="client_image_2" style="display: none; position: absolute;" >
+
 	<% end %>
 </div>
 <% end %>

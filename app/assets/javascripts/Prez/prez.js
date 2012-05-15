@@ -103,10 +103,10 @@ function cssAdjustments() {
 	var container       = $("#container");
 	var slideContainer	= $("#slideshow");
 	var firstImage      = slideContainer.children(":last"); // ASSUMES ALL IMAGES THE SAME SIZE
-	var width 			= firstImage.width();
-	var height			= firstImage.height();
-	var imageWidth		= firstImage.attr('data-max-width');
-	var imageHeight		= firstImage.attr('data-max-height');
+	var width 			= 1024 ;//firstImage.width();
+	var height			= 672; //firstImage.height();
+	var imageWidth		= 1024 ;//firstImage.attr('data-max-width');
+	var imageHeight		= 672; //firstImage.attr('data-max-height');
 	
 	if (document.body && document.body.offsetWidth) {
           winW = document.body.offsetWidth;
