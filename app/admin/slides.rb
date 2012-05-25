@@ -3,7 +3,6 @@ ActiveAdmin.register Slide do
     f.inputs 'Slide' do
       f.input :presentation
       f.input :name
-      f.input :sequence
       f.input :image, as: :file
     end
     
@@ -19,5 +18,14 @@ ActiveAdmin.register Slide do
       end
     end
     active_admin_comments
+  end
+  
+  controller do
+  	def set_slide_position
+  		slide = Slide.find(params[:slide_id])
+  		slide.insert_at(params[:index].to_i)  		
+  		
+  		render json: {}
+  	end
   end
 end

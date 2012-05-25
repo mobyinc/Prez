@@ -15,6 +15,7 @@ gem "meta_search",    '>= 1.1.0.pre'
 gem 'fog'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'acts_as_list'
 
 
 # Gems used only for assets and not required
@@ -27,6 +28,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'rails-asset-jqueryui'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

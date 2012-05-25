@@ -15,11 +15,11 @@
 
 <% if @presentation.slides.length > 0 %>
 
-<ul>
-	<% for slide in @presentation.slides %>		
-	<li>
-		<!-- TODO: convert to thumbnail version -->
-		<img src="<%= slide.image.thumb.url %>" width="64" height="42" /> <%= slide.name %> 
+<ul id="sortable_slides" data-update-url="<%= admin_slide_position_path %>" >
+	<% for slide in @presentation.slides.order(:sequence) %>		
+	<li class="ui-state-default" data-id="<%= slide.id %>">
+		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span><img src="<%= slide.image.thumb.url %>" width="64" height="42" /><span><%= slide.name %> </span>
+		<span class="right"><%= link_to 'edit', edit_admin_slide_path(slide) %></span>
 	</li>
 	<% end %>
 </ul>
