@@ -8,5 +8,15 @@
 <div id="container">
 	<img src="assets/empty.png" id="image" data-poll-url="<%= presentation_current_slide_path(@presentation) %>" style="display: none; position: absolute;"/>
 	<img src="assets/empty.png" id="image_swap" style="display: none; position: absolute;" >
+	
+	<% if @presenter %>
+	   <ul class="thumbnail_navigation" data-presentation-title="<%= @presentation.title %>">
+	   <% @presentation.slides.each_with_index do |slide, index| %>
+	       <li class="thumbnail" data-index="<%= index %>">
+	           <%= image_tag slide.thumb.url, {class: "prez_thumb"} %>
+	       </li>
+	   <% end %>
+	   </ul>
+	<% end %>
 </div>
 <% end %>

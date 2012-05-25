@@ -3,7 +3,7 @@
  	Polling function. Polls every |timeout| milliseconds to see if the active slide has changed. If so, changes the slide to the appropriate one.
 */
 function slidePoll() {
-	var slideContainer 	= $("#client_image");	
+	var slideContainer 	= $("#image");	
  	var poll_url 		= slideContainer.attr('data-poll-url');
 	var active_key 		= 'current_slide';
 	var timeout         = 1000;
@@ -21,10 +21,10 @@ function slidePoll() {
 		var current_container;
 		var next_container = window.next_container; 
 		
-		if (next_container == "client_image") {
-			current_container = "client_image_2";
+		if (next_container == "image") {
+			current_container = "image_swap";
 		} else {
-			current_container = "client_image";
+			current_container = "image";
 		}
 		
 		var current = "#" + current_container;
@@ -75,7 +75,7 @@ function setSlideTimeout() {
 */
 function setSlide() {
 	var timeout         = 200;
-    setTimeout("setSlideTimeout()", timeout);	
+    
 }
 
 
@@ -96,7 +96,8 @@ function storeImageAttributes() {
 }
 
 /**
-	Makes CSS adjustments for prez, which are dynamic based on the size of the slides
+    cssAdjustments()
+	Makes CSS adjustments for Prez, which are dynamic based on the size of the slides
 */
 function cssAdjustments() {
 	var container       = $("#container");
@@ -141,6 +142,9 @@ function cssAdjustments() {
 	
 }
 
+/**
+    Sets up the admin area, including navigation and click handlers.
+*/
 function adminSetup() {
 	var admin 			= $("#admin").size() > 0;
     
@@ -148,85 +152,55 @@ function adminSetup() {
 		return;
 	}
 	
-	// Click handler for bullets
-	var bullets = $("ul.orbit-bullets").children();
-	$.each(bullets, function(index, value) {
-		
-		$(value).click(function(e) {
-			setSlide();
-		});
-		
+	// Add in click handlers for thumbnails
+	var thumbs = $("img.prez_thumb");
+	$.each(thumbs, function(index, value) {
+    	
+    	$(value).click(function(event) {
+        	var current = $('li[selected="selected"]');
+        	var next    = $(value).parent();
+        	current.removeAttr('selected');
+        	next.attr('selected', 'selected');
+        	setSlide();
+    	});
 	});
-	
-	// Click handler for nav arrows
-	$.each(slider_nav.children(), function(index, value) {
-		$(value).click(function(e) {
-			setSlide();
-		})
-	});
-	
+		
 	// Key navigation
 	$(document).keydown(function(e) {
+    	var current     = $('li[selected="selected"]');        	
 		if (e.which == 37) { // left key
-			slider_nav.children(".left").click();
-			setSlide();
+    		var next    = current.prev();
 		}
 		else if (e.which == 39) { // right key
-			slider_nav.children(".right").click();
-			setSlide();
+    		var next    = current.next();
 		}
+		
+		current.removeAttr('selected');
+		next.attr('selected', 'selected');
+		setSlide();
 	});
 	
 }
 
 $(window).load(function() {
 
-	///////////
-	// ORBIT //
-	///////////
-	var slideContainer 	= $("#slideshow");
+	var slideContainer 	    = $("#slideshow");
 	window.admin 			= $("#admin").size() > 0;
-	window.orbit_list 		= $("ul.orbit-bullets");
-
-	
-    slideContainer.orbit({
-        animation: 'fade',
-        timer: false,
-        bullets: true,
-        directionalNav: admin
-    });
-
-	window.slider_nav      	= $(".slider-nav");
-	window.next_container   = "client_image";
+	window.next_container   = "image";
 	
 	storeImageAttributes();
 	cssAdjustments();
-
-	//////////
-	// PREZ //
-	//////////
-	
     
-    // Hide bullets for non-admins
-    if (!admin) {
-        $("ul.orbit-bullets").css('display', 'none');
-		$(".slider-nav").css('display', 'none');
-    }
-
 	if (admin) {	
 		adminSetup();
+		setTimeout("setSlideTimeout()", 200);	
 	}
 	
 	// Start polling
-	if (!admin) {
-		slidePoll();
-	} else {
-		setSlide();
-	}
+    slidePoll();
 	
-	// Window resizing event
-	$(window).resize(function() {
-	    
+	// Register for the window resize event
+	$(window).resize(function() {	    
 		cssAdjustments();
 	});
 
