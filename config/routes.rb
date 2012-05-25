@@ -10,8 +10,8 @@ Prez::Application.routes.draw do
   put 'presentation/:id/current_slide' => 'presentations#update_current_slide', as: 'presentation_current_slide'
   
   
-  get '(:slug)' => 'presentations#show'
-  get '(:slug)/present' => 'presentations#present'
+  get '(:slug)' => 'presentations#show', as: 'view_presentation'
+  get '(:slug)/present' => 'presentations#present', as: 'present_presentation'
   
   root :to => 'presentations#show'
   

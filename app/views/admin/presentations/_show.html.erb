@@ -1,0 +1,27 @@
+<h3>Description</h3>
+<p><%= @presentation.description %></p>
+
+<h3>Urls</h3>
+<p>View this presentation at <%= link_to(view_presentation_url(@presentation.url_slug), view_presentation_url(@presentation.url_slug)) %></p>
+<p>Control this presentation at <%= link_to(present_presentation_url(@presentation.url_slug), present_presentation_url(@presentation.url_slug)) %></p>
+
+<h3>Slides</h3>
+
+<% if @presentation.slides.length == 0 %>
+
+<p>No slides have been added</p>
+
+<% end %>
+
+<% if @presentation.slides.length > 0 %>
+
+<ul>
+	<% for slide in @presentation.slides %>		
+	<li>
+		<!-- TODO: convert to thumbnail version -->
+		<img src="<%= slide.image.thumb.url %>" width="64" height="42" /> <%= slide.name %> 
+	</li>
+	<% end %>
+</ul>
+
+<% end %>
