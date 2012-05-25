@@ -1,4 +1,4 @@
 class Presentation < ActiveRecord::Base
-  has_many :slides
+  has_many :slides, :order => 'sequence'
   
 end

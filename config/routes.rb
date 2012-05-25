@@ -9,6 +9,9 @@ Prez::Application.routes.draw do
   get 'presentation/:id/current_slide' => 'presentations#current_slide', as: 'presentation_current_slide'
   put 'presentation/:id/current_slide' => 'presentations#update_current_slide', as: 'presentation_current_slide'
   
+  namespace :admin do |admin|
+  	put 'slide/set_position/' => 'slides#set_slide_position', as: 'slide_position'
+  end
   
   get '(:slug)' => 'presentations#show', as: 'view_presentation'
   get '(:slug)/present' => 'presentations#present', as: 'present_presentation'
