@@ -53,13 +53,15 @@ function slidePoll() {
 */
 function setSlideTimeout() {
 	var admin     = $("#admin").size() > 0;
-	var active_li = $("li.active").text();
-	var data      = { current_slide: active_li };
-	var post_url  = $("#slideshow").attr('data-post-url');
+	var post_url  = $("#navigation").attr('data-post-url');
+    var selected  = $("li[selected='selected']");
+    var index     = selected.attr('data-index');	
+	var data      = { current_slide: index };
 	
 	if (!admin) {
 		return;
 	}
+
 	
 	$.ajax({
 		type: "PUT",
@@ -74,8 +76,7 @@ function setSlideTimeout() {
 	We use the bullets for navigation purposes, so we want the active bullet to be accurate.
 */
 function setSlide() {
-	var timeout         = 200;
-    
+    setSlideTimeout();
 }
 
 
@@ -103,10 +104,7 @@ function cssAdjustments() {
 	var container       = $("#container");
 	var slideContainer	= $("#slideshow");
 	var firstImage      = slideContainer.children(":last"); // ASSUMES ALL IMAGES THE SAME SIZE
-	var width 			= 1024 ;//firstImage.width();
-	var height			= 672; //firstImage.height();
-	var imageWidth		= 1024 ;//firstImage.attr('data-max-width');
-	var imageHeight		= 672; //firstImage.attr('data-max-height');
+	var navigation      = $("#navigation");
 	
 	if (document.body && document.body.offsetWidth) {
           winW = document.body.offsetWidth;
@@ -120,8 +118,19 @@ function cssAdjustments() {
           winW = window.innerWidth;
           winH = window.innerHeight;
       }
+
+	var width 			= winW;
+	var height			= winH;
+	var imageWidth		= winW;
+	var imageHeight		= winH;
+
 	
 	var maxHeight 		= winH;
+	
+	// Adjust for navigation if admin
+	if (navigation.length) {
+    	maxHeight -= navigation.height();
+	}
 	var maxWidth		= winW;
 	var images			= $("img");
 
@@ -139,6 +148,10 @@ function cssAdjustments() {
 	
 	// Height/width setup
 	container.css('height', height).css('width', width);
+	$("#image").attr('height', height).attr('width', width);
+	$("#image_swap").attr('height', height).attr('width', width);
+	
+	// Push the navigation down
 	
 }
 
@@ -167,7 +180,14 @@ function adminSetup() {
 		
 	// Key navigation
 	$(document).keydown(function(e) {
-    	var current     = $('li[selected="selected"]');        	
+    	var current      = $('li[selected="selected"]');
+    	
+    	if (e.which == 37 || e.which == 39) {
+            e.preventDefault();
+    	} else {
+        	return true;
+    	}
+        	
 		if (e.which == 37) { // left key
     		var next    = current.prev();
 		}

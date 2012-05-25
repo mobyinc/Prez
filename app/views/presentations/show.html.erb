@@ -6,17 +6,19 @@
 	<p><%= @error %></p>
 <% else %>
 <div id="container">
-	<img src="assets/empty.png" id="image" data-poll-url="<%= presentation_current_slide_path(@presentation) %>" style="display: none; position: absolute;"/>
+	<img src="assets/empty.png" id="image" data-poll-url="<%= presentation_current_slide_path(@presentation) %>" style="display: none; position: absolute; "/>
 	<img src="assets/empty.png" id="image_swap" style="display: none; position: absolute;" >
+</div>
 	
 	<% if @presenter %>
+	<div id="navigation" data-post-url="<%= presentation_current_slide_path(@presentation) %>">
 	   <ul class="thumbnail_navigation" data-presentation-title="<%= @presentation.title %>">
-	   <% @presentation.slides.each_with_index do |slide, index| %>
+	   <% @slides.each_with_index do |slide, index| %>
 	       <li class="thumbnail" data-index="<%= index %>">
-	           <%= image_tag slide.thumb.url, {class: "prez_thumb"} %>
+	           <%= image_tag slide.image.thumb.url, {class: "prez_thumb"} %>
 	       </li>
 	   <% end %>
 	   </ul>
+	</div>
 	<% end %>
-</div>
 <% end %>

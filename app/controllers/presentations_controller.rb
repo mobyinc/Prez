@@ -20,7 +20,7 @@ class PresentationsController < ApplicationController
   def update_current_slide
     @presentation = Presentation.find(params[:id])
 
-    @presentation.current_slide = (params[:current_slide].to_i - 1)
+    @presentation.current_slide = (params[:current_slide].to_i)
     @presentation.save
     
     render json: {}    
@@ -30,10 +30,10 @@ class PresentationsController < ApplicationController
     @presentation = Presentation.find_by_url_slug(params[:slug])
     
     if @presentation
-      @images = []
+      @slides = []
     
       @presentation.slides.order(:sequence).each do |s|
-        @images << s.image
+        @slides << s
       end
     else
       @error = "Oops, there is no presentation at this url"
