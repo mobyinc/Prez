@@ -1,6 +1,28 @@
 // Active Admin CSS Styles
 @import "active_admin/mixins";
 @import "active_admin/base";
+@import "smoothness";
 
 // To customize the Active Admin interfaces, add your
 // styles here:
+
+#sortable_slides li {
+	list-style: none;
+	padding: 5px;
+	margin: 10px;	
+	height: 50px;
+	width: 300px;	
+	
+	span {
+		float: left;
+		margin-top: 15px;
+		margin-right: 10px;
+		font-weight: bold;
+	}
+	
+	img {
+		float: left;
+		padding-top: 4px;
+		padding-right: 10px;
+	}
+}

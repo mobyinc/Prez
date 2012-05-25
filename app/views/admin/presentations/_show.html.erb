@@ -15,11 +15,10 @@
 
 <% if @presentation.slides.length > 0 %>
 
-<ul>
+<ul id="sortable_slides">
 	<% for slide in @presentation.slides %>		
-	<li>
-		<!-- TODO: convert to thumbnail version -->
-		<img src="<%= slide.image.thumb.url %>" width="64" height="42" /> <%= slide.name %> 
+	<li class="ui-state-default">
+		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span><img src="<%= slide.image.thumb.url %>" width="64" height="42" /><span><%= slide.name %> </span>
 	</li>
 	<% end %>
 </ul>
