@@ -5,54 +5,68 @@
 function slidePoll() {
 	var slideContainer 	= $("#image");	
  	var poll_url 		= slideContainer.attr('data-poll-url');
-	var active_key 		= 'current_slide';
-	var timeout         = 1000;
+	var image_key 		= 'current_slide';
+	var index_key       = 'index';
+	var timeout         = 2000;
 	
     $.get(poll_url,
     function(data) {
 
 		// Default in case no data yet
 		if (!data) {
-			data = { current_slide: '' }
+			data = { current_slide: '' , 
+			         index: 0 }
 		} 
 
         // Get the active slide from JSON and on the page
-        var active_slide      = data[active_key];
+        var active_slide      = data[image_key];
+        var active_index      = data[index_key];
 		var current_container;
-		var next_container = window.next_container; 
+		var next_container    = window.next_container; 
 		
-		if (next_container == "image") {
-			current_container = "image_swap";
+		if (next_container == "#image") {
+			current_container = "#image_swap";
 		} else {
-			current_container = "image";
+			current_container = "#image";
 		}
 		
-		var current = "#" + current_container;
-		var next    = "#" + next_container;
-		var $current = $(current);
-		var $next    = $(next);
+		var $current = $(current_container);
+		var $next    = $(next_container);
 
+		// Update the images
 		if ($current.attr('src') != active_slide) {
-        	$current.fadeOut('slow', function() {
-			});
-			
-			$next.attr('src', active_slide);				
-			$next.fadeIn('slow');
-			window.next_container = current_container;
-			
+		    $next.attr('width','').attr('height','');
+    		$next.attr('src', active_slide);
+    		$next.load(function() { 
+    		  // TODO: This isn't loading the next one for some reason occasionally
+        		window.current_container = next_container;
+        		window.next_container    = current_container;
+
+        		// Adjust the size of the container and image as necessary
+        		imageAdjustments();
+
+        		$current.fadeOut('slow');
+        		$next.fadeIn('slow');
+        		                    
+    		});	
+    		
+    		// Update the active li element
+            var selected = $("li[selected='selected']");
+            var next     = $("li[data-index='" + active_index + "']");
+            selected.removeAttr('selected');
+            next.attr('selected','selected');				
 		}
 		
-    });
-	
-    setTimeout("slidePoll()", timeout);
+		setTimeout("slidePoll()", timeout);
+    });	
 }
 
 /**
-	setSlideTimeout()
+	setSlide()
 	Sets the slide, server-side. Checks for appropriate permissions first.
 */
-function setSlideTimeout() {
-	var admin     = $("#admin").size() > 0;
+function setSlide() {
+    var admin     = $("#admin").size() > 0;
 	var post_url  = $("#navigation").attr('data-post-url');
     var selected  = $("li[selected='selected']");
     var index     = selected.attr('data-index');	
@@ -67,16 +81,7 @@ function setSlideTimeout() {
 		type: "PUT",
 		url: post_url, 
 		data: data});	
-}
 
-/**
-	setSlide()
-	Starts a timeout that calls setSlide(). 
-	The reason for the timeout is to give foundation time to call whatever functions necessary for orbit to work.
-	We use the bullets for navigation purposes, so we want the active bullet to be accurate.
-*/
-function setSlide() {
-    setSlideTimeout();
 }
 
 
@@ -97,15 +102,15 @@ function storeImageAttributes() {
 }
 
 /**
-    cssAdjustments()
-	Makes CSS adjustments for Prez, which are dynamic based on the size of the slides
+    imageAdjustments()
+	Makes CSS adjustments for Prez, which tries to present the image at native size, but will scale down to window
+	size if necessary.
 */
-function cssAdjustments() {
-	var container       = $("#container");
-	var slideContainer	= $("#slideshow");
-	var firstImage      = slideContainer.children(":last"); // ASSUMES ALL IMAGES THE SAME SIZE
-	var navigation      = $("#navigation");
-	
+function imageAdjustments() {
+	var container         = $("#container");
+	var navigation        = $("#navigation");
+	var current_container = $(window.current_container);
+
 	if (document.body && document.body.offsetWidth) {
           winW = document.body.offsetWidth;
           winH = document.body.offsetHeight;
@@ -119,43 +124,38 @@ function cssAdjustments() {
           winH = window.innerHeight;
       }
 
-	var width 			= winW;
-	var height			= winH;
-	var imageWidth		= winW;
-	var imageHeight		= winH;
-
+	var imageWidth		= current_container.width();
+	var imageHeight		= current_container.height();
 	
 	var maxHeight 		= winH;
+	var maxWidth		= winW;
 	
 	// Adjust for navigation if admin
 	if (navigation.length) {
     	maxHeight -= navigation.height();
 	}
-	var maxWidth		= winW;
-	var images			= $("img");
 
-	if (width > maxWidth) {
+	// Adjust width and height
+	if (imageWidth > maxWidth) {
 		width = maxWidth;
-	} else if (width < imageWidth)  {
-		width = maxWidth;
-	}
+	} else {
+		width = imageWidth;
+	} 
 	
-	if (height > maxHeight) {
+	if (imageHeight > maxHeight) {
 		height = maxHeight;
-	} else if (height < imageHeight) {
-		height = maxHeight;
+	} else {
+		height = imageHeight;
 	}
 	
 	// Height/width setup
 	container.css('height', height).css('width', width);
-	$("#image").attr('height', height).attr('width', width);
-	$("#image_swap").attr('height', height).attr('width', width);
-	
-	// Push the navigation down
-	
+	current_container.attr('height', height).attr('width', width);	
 }
 
 /**
+    adminSetup()
+    
     Sets up the admin area, including navigation and click handlers.
 */
 function adminSetup() {
@@ -181,39 +181,38 @@ function adminSetup() {
 	// Key navigation
 	$(document).keydown(function(e) {
     	var current      = $('li[selected="selected"]');
+    	var next         = [];
     	
-    	if (e.which == 37 || e.which == 39) {
-            e.preventDefault();
+    	if (e.which == 37) { // left key
+        	next = current.prev();
+    	} else if (e.which == 39) { // right key
+        	next = current.next();
     	} else {
         	return true;
     	}
-        	
-		if (e.which == 37) { // left key
-    		var next    = current.prev();
-		}
-		else if (e.which == 39) { // right key
-    		var next    = current.next();
-		}
-		
-		current.removeAttr('selected');
-		next.attr('selected', 'selected');
-		setSlide();
+    	
+    	e.preventDefault();
+        			
+		if (next.length) {
+	   	    current.removeAttr('selected');
+    		next.attr('selected', 'selected');
+    		setSlide();
+		} 
 	});
 	
 }
 
 $(window).load(function() {
 
-	var slideContainer 	    = $("#slideshow");
-	window.admin 			= $("#admin").size() > 0;
-	window.next_container   = "image";
+	window.admin 			 = $("#admin").size() > 0;
+	window.current_container = "#image_swap"
+	window.next_container    = "#image";
 	
-	storeImageAttributes();
-	cssAdjustments();
+	imageAdjustments();
     
 	if (admin) {	
 		adminSetup();
-		setTimeout("setSlideTimeout()", 200);	
+		setTimeout("setSlide()", 200);	
 	}
 	
 	// Start polling
@@ -221,7 +220,7 @@ $(window).load(function() {
 	
 	// Register for the window resize event
 	$(window).resize(function() {	    
-		cssAdjustments();
+		imageAdjustments();
 	});
 
 });

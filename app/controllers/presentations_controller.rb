@@ -14,15 +14,17 @@ class PresentationsController < ApplicationController
   
   def current_slide
     @presentation = Presentation.find(params[:id])
-    render json: { current_slide: @presentation.slides.order(:sequence)[@presentation.current_slide].image.url }
+    render json: { current_slide: @presentation.slides.order(:sequence)[@presentation.current_slide].image.url,
+                   index: @presentation.current_slide }
   end
 
   def update_current_slide
     @presentation = Presentation.find(params[:id])
 
     @presentation.current_slide = (params[:current_slide].to_i)
-    @presentation.save
     
+    @presentation.save
+
     render json: {}    
   end
   
