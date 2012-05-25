@@ -4,7 +4,7 @@ Take control of remote presentations.
 
 ## The Problem
 
-Have you ever had to give a presentation remotely over the phone before? If you distribute a document (Keynote, Powerpoint, etc) people always skip ahead and get distracted. If you do a screenshare, the lovely images you spent hours creating are mangled by compression and there are always complications with coordinating the screencast.
+Have you ever had to give a presentation remotely over the phone before? If you distribute a document (Keynote, Powerpoint, etc) people always skip ahead and get distracted. If you do a screecast, the lovely images you spent hours creating are mangled by compression and there are always complications with coordinating the screencast.
 
 ## How it Works
 
@@ -21,7 +21,7 @@ The project is pretty basic and currently only includes the base features we req
 * Heroku compatible rails 3.2 for easy one-off deploy
 * Admin area for management of presentations and users
 * Each presentation can have a custom url slug
-* Login required to conrol presentations
+* Login required to control presentations
 * Ajax loading of images for better performance with a large number of slides
 * Works on mobile devices (iPhone, iPad, etc)
 
@@ -49,7 +49,7 @@ http://mycleverappname.herokuapp.com/admin
 
 Login with admin@admin.com and use 'password' as the password.
 
-From here, you can add more users, change your password, or add your first presentation fairly intuatively. Prez uses the excellent [Active Admin](https://github.com/gregbell/active_admin). If you've ever used that, you'll feel right at home.
+From here, you can add more users, change your password, or add your first presentation fairly intuitively. Prez uses the excellent [Active Admin](https://github.com/gregbell/active_admin). If you've ever used that, you'll feel right at home.
 
 ## Presenting
 
