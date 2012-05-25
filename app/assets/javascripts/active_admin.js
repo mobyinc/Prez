@@ -4,5 +4,7 @@
 
 
 $(document).ready(function() { 
-	$('#sortable_slides').sortable();
+	$('#sortable_slides').sortable({
+		update: function(event, ui) { alert('hello'); }
+	});
 });
