@@ -14,6 +14,7 @@ gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
 gem 'fog'
 gem 'carrierwave'
+gem 'mini_magick'
 
 
 # Gems used only for assets and not required
