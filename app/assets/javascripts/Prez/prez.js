@@ -7,7 +7,7 @@ function slidePoll() {
  	var poll_url 		= slideContainer.attr('data-poll-url');
 	var image_key 		= 'current_slide';
 	var index_key       = 'index';
-	var timeout         = 2000;
+	var timeout         = 1000;
 	
     $.get(poll_url,
     function(data) {
@@ -37,29 +37,47 @@ function slidePoll() {
 		if ($current.attr('src') != active_slide) {
 		    $next.attr('width','').attr('height','');
     		$next.attr('src', active_slide);
-    		$next.load(function() { 
-    		  // TODO: This isn't loading the next one for some reason occasionally
-        		window.current_container = next_container;
-        		window.next_container    = current_container;
+    		if ($next[0].complete || $next[0].readyState == 4) {    		
+		      // Should also check which is displayed, adjust appropriately
+		      window.current_container = next_container;
+		      window.next_container    = current_container;
 
-        		// Adjust the size of the container and image as necessary
-        		imageAdjustments();
+		      // Adjust the size of the container and image as necessary
+		      imageAdjustments();
 
-        		$current.fadeOut('slow');
-        		$next.fadeIn('slow');
-        		                    
-    		});	
+		      $current.fadeOut('slow');
+		      $next.fadeIn('slow');
+    		} else {
+    		  $next.load(function() { 
+    		      // Should also check which is displayed, adjust appropriately
+    		      window.current_container = next_container;
+    		      window.next_container    = current_container;
+
+    		      // Adjust the size of the container and image as necessary
+    		      imageAdjustments();
+
+    		      $current.fadeOut('slow');
+    		      $next.fadeIn('slow');	                    
+    		  });	
+    		}
     		
     		// Update the active li element
             var selected = $("li[selected='selected']");
             var next     = $("li[data-index='" + active_index + "']");
             selected.removeAttr('selected');
             next.attr('selected','selected');				
+		} else {
+    		// Make sure the current container is actually being shown
+    		if ($current.is(":hidden")){
+        		$next.fadeOut('slow');
+        		$current.fadeIn('slow');
+    		}
 		}
 		
 		setTimeout("slidePoll()", timeout);
     });	
 }
+
 
 /**
 	setSlide()
